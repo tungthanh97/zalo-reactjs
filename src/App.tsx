@@ -1,14 +1,10 @@
 import React from 'react';
-import { Signup } from 'Pages';
+
 import './App.css';
+import { Root } from 'Routes';
 
 function App() {
-  return (
-    <div className="App">
-      {/* <Main /> */}
-      <Signup />
-    </div>
-  );
+  return <Root />;
 }
 
 export default App;

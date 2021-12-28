@@ -3,7 +3,7 @@ export type BaseEntity = {
 };
 
 export enum EntityName {
-  Global = 'global',
+  User = 'user',
 }
 
 export enum ScreenName {}

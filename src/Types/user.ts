@@ -9,7 +9,7 @@ export type User = BaseEntity & {
   date: number;
 };
 
-export type UserFormSignUp = {
+export type UserFormRegister = {
   username: string;
   password: string;
   email: string;

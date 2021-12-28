@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-export const signUpValues = {
+export const RegisterValues = {
   initial: {
     username: '',
     email: '',

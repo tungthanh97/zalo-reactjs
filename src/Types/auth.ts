@@ -5,6 +5,5 @@ export type UserFormLogin = {
 
 export type AuthResponse = {
   accessToken: string;
-  email: string;
   refreshToken: string;
 };

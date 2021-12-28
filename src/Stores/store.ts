@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 
-import { globalReducer } from 'Stores';
+import { userReducer } from './user';
 import { EntityName } from 'Types';
 
 const rootReducer = combineReducers({
-  [EntityName.Global]: globalReducer,
+  [EntityName.User]: userReducer,
 });
 
 export const store = configureStore({
