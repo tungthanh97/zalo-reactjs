@@ -4,8 +4,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Divider, Row } from 'antd';
 import React from 'react';
-import jwt_decode from 'jwt-decode';
-import { logInAsync, useAppDispatch } from 'Stores';
+
+import { autoLoginAsync, logInAsync, useAppDispatch } from 'Stores';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -19,10 +19,9 @@ export const Login = () => {
   React.useEffect(() => {
     const refreshToken = localStorage.getItem('refresh_token');
     if (refreshToken) {
-      const decoded = jwt_decode(refreshToken);
-      console.log('payload token', decoded);
+      dispatch(autoLoginAsync(refreshToken));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -36,10 +35,10 @@ export const Login = () => {
         <Form>
           <Divider>
             <Row gutter={[0, 8]}>
-              <label htmlFor="username">Username</label>
+              <label htmlFor="phone">Phone</label>
 
-              <Field name="username" placeholder="Username" />
-              <ErrorMessage component="div" name="username" />
+              <Field name="phone" placeholder="Phone number" />
+              <ErrorMessage component="div" name="phone" />
             </Row>
             <Row gutter={[0, 8]}>
               <label htmlFor="password">Password</label>

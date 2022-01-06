@@ -1,22 +1,21 @@
 import { ErrorMessage as Error, UserFormRegister } from 'Types';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import React from 'react';
+import { registerAsync, useAppDispatch } from 'Stores';
 import { useUserError } from 'Hooks';
 import { useNavigate } from 'react-router-dom';
 import { Divider, Row, message } from 'antd';
 import { RegisterValues } from './registerValues';
-import { userRegister } from 'Services';
-import { saveToken } from 'Utils';
 
 export const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const goToLogin = () => {
     navigate('/account/login');
   };
 
   const handleError = (error: Error) => {
-    message.warning(error);
+    message.warning(error.message);
   };
   const handleSuccess = () => {
     message.success('Register success');
@@ -26,9 +25,8 @@ export const Register = () => {
   const error = useUserError();
   const handleSubmit = async (values: UserFormRegister) => {
     console.log('Register', values);
-    const { refreshToken, accessToken } = await userRegister(values);
-    console.log('accessToken', accessToken);
-    saveToken({ refreshToken, accessToken });
+    dispatch(registerAsync(values));
+
     if (error) handleError(error);
     else handleSuccess();
   };
@@ -52,10 +50,10 @@ export const Register = () => {
               <ErrorMessage component="div" name="username" />
             </Row>
             <Row>
-              <label htmlFor="email">Email</label>
+              <label htmlFor="phone">Phone</label>
 
-              <Field name="email" placeholder="Email" />
-              <ErrorMessage component="div" name="email" />
+              <Field name="phone" placeholder="phone" />
+              <ErrorMessage component="div" name="phone" />
             </Row>
             <Row>
               <label htmlFor="password">Password</label>

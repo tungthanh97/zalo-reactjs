@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { EntityName, ErrorMessage, User, UserFormLogin } from 'Types';
-import { logIn } from 'Services';
+import {
+  EntityName,
+  ErrorMessage,
+  User,
+  UserFormLogin,
+  UserFormRegister,
+} from 'Types';
+import { logIn, userRegister, autoLogin } from 'Services';
 
 const KEY = EntityName.User;
 
@@ -28,6 +34,30 @@ export const logInAsync = createAsyncThunk<
   }
 });
 
+export const registerAsync = createAsyncThunk<
+  User,
+  UserFormRegister,
+  { rejectValue: ErrorMessage }
+>(`${KEY}/register`, async (data, { rejectWithValue }) => {
+  try {
+    return await userRegister(data);
+  } catch (error) {
+    return rejectWithValue(error as ErrorMessage);
+  }
+});
+
+export const autoLoginAsync = createAsyncThunk<
+  User,
+  string,
+  { rejectValue: ErrorMessage }
+>(`${KEY}/auto-register`, async (refreshToken, { rejectWithValue }) => {
+  try {
+    return await autoLogin(refreshToken);
+  } catch (error) {
+    return rejectWithValue(error as ErrorMessage);
+  }
+});
+
 const userSlice = createSlice({
   name: `${KEY}_slice`,
   initialState: initState,
@@ -38,24 +68,41 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(logInAsync.pending, (state) => {
-        state.isLoading = true;
-        return state;
-      })
-      .addCase(logInAsync.fulfilled, (_, { payload }) => {
+    [logInAsync.pending, registerAsync.pending, autoLoginAsync.pending].forEach(
+      (item) => {
+        builder.addCase(item, (state) => {
+          state.isLoading = true;
+          return state;
+        });
+      },
+    );
+
+    [
+      logInAsync.fulfilled,
+      registerAsync.fulfilled,
+      autoLoginAsync.fulfilled,
+    ].forEach((item) => {
+      builder.addCase(item, (_, { payload }) => {
         return {
           isLoading: false,
           error: null,
           user: payload,
           isLoggedIn: true,
         };
-      })
-      .addCase(logInAsync.rejected, (state, action) => {
+      });
+    });
+
+    [
+      logInAsync.rejected,
+      registerAsync.rejected,
+      autoLoginAsync.rejected,
+    ].forEach((item) => {
+      builder.addCase(item, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as ErrorMessage;
         return state;
       });
+    });
   },
 });
 

@@ -1,9 +1,8 @@
 import { AuthResponse, ErrorMessage } from 'Types';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { BASE_URL, AUTH_URL } from './url';
-import { saveToken } from 'Utils';
+import { saveToken, removeToken } from 'Utils';
 
-const API_KEY = 'mXRhJ5bDj0UGhtJQ6pz5u7Etn8ipeocPgc0f4Mja';
 export const API = axios.create({
   baseURL: BASE_URL,
   timeout: 3000,
@@ -15,7 +14,7 @@ const refreshToken = async () => {
     refresh_token: token,
   });
   const { refreshToken, accessToken } = data;
-  saveToken({ refreshToken, accessToken });
+  saveToken(refreshToken, accessToken);
 };
 
 API.interceptors.request.use(async (config) => {
@@ -37,8 +36,7 @@ API.interceptors.response.use(
       try {
         await refreshToken();
       } catch (error) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        removeToken();
         return Promise.reject(error);
       }
       return axios.request(requestCfg);
