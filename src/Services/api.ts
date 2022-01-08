@@ -48,17 +48,3 @@ API.interceptors.response.use(
     return Promise.reject(errorMessage);
   },
 );
-
-// API.interceptors.request.use((config) => {
-//   config.params = {
-//     // add your default ones
-//     apiKey: API_KEY,
-//     category: 'code',
-//     difficulty: 'Medium',
-//     limit: 10,
-//     // tags: 'JavaScript',
-//     // spread the request's params
-//     ...config.params,
-//   };
-//   return config;
-// });

@@ -13,8 +13,8 @@ export const Login = () => {
   const handleSubmit = (values: UserFormLogin) => {
     dispatch(logInAsync(values));
   };
-  const goToRegister = () => {
-    navigate('/account/register');
+  const goToPhoneVerify = () => {
+    navigate('/account/verify-phone');
   };
   React.useEffect(() => {
     const refreshToken = localStorage.getItem('refresh_token');
@@ -26,7 +26,7 @@ export const Login = () => {
   return (
     <div>
       <h1>Login</h1>
-      <button onClick={goToRegister}>Register</button>
+      <button onClick={goToPhoneVerify}>Register</button>
       <Formik
         initialValues={loginValues.initial}
         validationSchema={loginValues.validationSchema}

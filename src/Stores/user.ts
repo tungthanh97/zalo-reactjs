@@ -6,7 +6,7 @@ import {
   UserFormLogin,
   UserFormRegister,
 } from 'Types';
-import { logIn, userRegister, autoLogin } from 'Services';
+import { authService } from 'Services';
 
 const KEY = EntityName.User;
 
@@ -28,7 +28,7 @@ export const logInAsync = createAsyncThunk<
   { rejectValue: ErrorMessage }
 >(`${KEY}/login`, async (data, { rejectWithValue }) => {
   try {
-    return await logIn(data);
+    return await authService.logIn(data);
   } catch (error) {
     return rejectWithValue(error as ErrorMessage);
   }
@@ -40,7 +40,7 @@ export const registerAsync = createAsyncThunk<
   { rejectValue: ErrorMessage }
 >(`${KEY}/register`, async (data, { rejectWithValue }) => {
   try {
-    return await userRegister(data);
+    return await authService.register(data);
   } catch (error) {
     return rejectWithValue(error as ErrorMessage);
   }
@@ -52,7 +52,7 @@ export const autoLoginAsync = createAsyncThunk<
   { rejectValue: ErrorMessage }
 >(`${KEY}/auto-register`, async (refreshToken, { rejectWithValue }) => {
   try {
-    return await autoLogin(refreshToken);
+    return await authService.autoLogin(refreshToken);
   } catch (error) {
     return rejectWithValue(error as ErrorMessage);
   }
