@@ -1,4 +1,4 @@
-import { PhoneVerify, RegisterInfo } from './Components';
+import { PhoneVerify, RegisterInfo } from './UI';
 import React from 'react';
 
 export const Register = () => {

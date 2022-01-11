@@ -8,7 +8,7 @@ export const loginValues = {
   validationSchema: Yup.object().shape({
     phone: Yup.string()
       .required('Phone Number is required')
-      .matches(/((09|03|07|08|05)+([0-9]{8})\b)/g, 'Invalid phone number'),
+      .matches(/((84|0)[3|5|7|8|9])+([0-9]{8})\b/g, 'Invalid phone number'),
     password: Yup.string()
       .min(8, 'Password is too short!')
       .max(50, 'Password is too short!')

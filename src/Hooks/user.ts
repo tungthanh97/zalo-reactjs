@@ -11,3 +11,7 @@ export const useUserError = () => {
 export const useUserLoading = () => {
   return useAppSelector((state) => state.user.isLoading);
 };
+
+export const useCurrentUser = () => {
+  return useAppSelector((state) => state.user.user);
+};

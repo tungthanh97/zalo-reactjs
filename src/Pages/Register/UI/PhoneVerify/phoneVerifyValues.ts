@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 export const phoneVerifyValues = {
   initial: {
-    phone: '+84',
+    phone: '',
   },
   validationSchema: Yup.object().shape({
     phone: Yup.string()
