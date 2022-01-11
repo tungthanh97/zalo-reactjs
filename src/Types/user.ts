@@ -12,6 +12,5 @@ export type User = BaseEntity & {
 export type UserFormRegister = {
   username: string;
   password: string;
-  code: string;
   phone: string;
 };

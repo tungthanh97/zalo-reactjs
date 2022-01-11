@@ -7,7 +7,6 @@ import { saveToken } from 'Utils';
 function updateAuthData(data: AuthResponse) {
   const { accessToken, refreshToken, user } = data;
   saveToken(refreshToken, accessToken);
-  console.log('user:', user);
   return user;
 }
 

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import { Spin } from 'antd';
 import { useIsLoggedIn, useUserLoading } from 'Hooks';
 import { Login, Register } from 'Pages';
-import React from 'react';
 
 export const Account = () => {
   const isLoading = useUserLoading();

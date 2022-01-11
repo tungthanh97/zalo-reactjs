@@ -1,27 +1,29 @@
 import { ErrorMessage as Error, UserFormRegister } from 'Types';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Form, FastField } from 'formik';
 import { registerAsync, useAppDispatch } from 'Stores';
 import { useUserError, useUserLoading } from 'Hooks';
 import { useNavigate } from 'react-router-dom';
-import { Divider, Row, Modal } from 'antd';
+import { Divider, Modal } from 'antd';
 import { registerValues } from './registerValues';
-import React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { TextField } from 'Components';
 
 export const RegisterInfo = ({ phone }: { phone: string }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const error = useUserError();
   const isLoading = useUserLoading();
-  const [isRegistered, setIsRegistered] = React.useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
 
-  const goToLogin = React.useCallback(() => {
+  const goToLogin = useCallback(() => {
     navigate('/account/login');
   }, [navigate]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleError = (error: Error) => {
       setIsRegistered(false);
-      Modal.success({
+      Modal.error({
         content: error.message,
       });
     };
@@ -58,7 +60,7 @@ export const RegisterInfo = ({ phone }: { phone: string }) => {
           const submitValues: UserFormRegister = {
             username: values.username,
             password: values.password,
-            code: values.code,
+
             phone,
           };
           handleSubmit(submitValues);
@@ -66,26 +68,21 @@ export const RegisterInfo = ({ phone }: { phone: string }) => {
       >
         <Form>
           <Divider>
-            <Row>
-              <label htmlFor="code">Code</label>
+            <FastField
+              label="Username"
+              name="username"
+              placeholder="Enter your username"
+              prefix={<UserOutlined />}
+              component={TextField}
+            />
 
-              <Field name="code" placeholder="Code" />
-              <ErrorMessage component="div" name="code" />
-            </Row>
-
-            <Row>
-              <label htmlFor="username">Username</label>
-
-              <Field name="username" placeholder="Username" />
-              <ErrorMessage component="div" name="username" />
-            </Row>
-
-            <Row>
-              <label htmlFor="password">Password</label>
-
-              <Field name="password" placeholder="Password" />
-              <ErrorMessage component="div" name="password" />
-            </Row>
+            <FastField
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              prefix={<LockOutlined />}
+              component={TextField}
+            />
           </Divider>
           <button type="submit">Submit</button>
         </Form>

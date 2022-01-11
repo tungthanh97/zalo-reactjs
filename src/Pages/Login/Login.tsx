@@ -2,18 +2,16 @@ import { loginValues } from './loginValues';
 import { UserFormLogin } from 'Types';
 import { Formik, Form, FastField } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Divider, Row, Col, Button } from 'antd';
+import { Divider, Col, Button } from 'antd';
 import { LockFilled, PhoneFilled } from '@ant-design/icons';
 import React from 'react';
-
 import { autoLoginAsync, logInAsync, useAppDispatch } from 'Stores';
-import { InputField } from 'Components';
+import { TextField, NumberField } from 'Components';
 
 export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleSubmit = (values: UserFormLogin) => {
-    console.log(values);
     dispatch(logInAsync(values));
   };
   const goToPhoneVerify = () => {
@@ -37,28 +35,21 @@ export const Login = () => {
       >
         <Form>
           <Divider>
-            <Row gutter={[0, 8]}>
-              <Col span={24}>
-                <FastField
-                  label="Phone"
-                  name="phone"
-                  placeholder="Enter your phone number"
-                  addonBefore={<PhoneFilled />}
-                  component={InputField}
-                />
-              </Col>
-            </Row>
-            <Row gutter={[0, 8]}>
-              <Col span={24}>
-                <FastField
-                  label="Password"
-                  name="password"
-                  placeholder="Enter your password"
-                  addonBefore={<LockFilled />}
-                  component={InputField}
-                />
-              </Col>
-            </Row>
+            <FastField
+              label="Phone"
+              name="phone"
+              placeholder="Enter your phone number"
+              prefix={<PhoneFilled />}
+              component={TextField}
+            />
+
+            <FastField
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              prefix={<LockFilled />}
+              component={TextField}
+            />
           </Divider>
           <Col span={24}>
             <br />
